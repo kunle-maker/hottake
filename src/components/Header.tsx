@@ -1,7 +1,7 @@
 import React from 'react';
 import { User } from '../types';
-import { FootballIcon, VerifiedBadge } from './CustomIcons';
-import { Bell, Search, Shield, User as UserIcon } from 'lucide-react';
+import { VerifiedBadge } from './CustomIcons';
+import { Bell, Search, Shield, User as UserIcon, Sun, Moon } from 'lucide-react';
 
 interface HeaderProps {
   user: User;
@@ -12,6 +12,8 @@ interface HeaderProps {
   onOpenAdmin?: () => void;
   onOpenAuth: () => void;
   isLoggedIn: boolean;
+  isDarkMode?: boolean;
+  onToggleTheme?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -22,33 +24,52 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenProfile,
   onOpenAdmin,
   onOpenAuth,
-  isLoggedIn
+  isLoggedIn,
+  isDarkMode = true,
+  onToggleTheme
 }) => {
+  const logoUrl = "https://i.ibb.co/d4tFKk7c/1e12634183c9.jpg";
+
   return (
-    <header className="sticky top-0 z-30 bg-[#0B1E3D] text-white shadow-md border-b border-sky-900/50">
+    <header className="sticky top-0 z-30 bg-white dark:bg-[#111827] text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 shadow-xs">
       <div className="max-w-4xl mx-auto px-4 h-15 flex items-center justify-between">
         {/* Brand Logo & Name */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#00A3E0] to-sky-300 flex items-center justify-center shadow-xs border border-white/20">
-            <FootballIcon size={20} className="text-[#0B1E3D]" />
-          </div>
+        <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <img
+            src={logoUrl}
+            alt="HotTakes Logo"
+            className="w-9 h-9 rounded-full object-cover border-2 border-orange-500 shadow-xs"
+            referrerPolicy="no-referrer"
+          />
           <div>
             <div className="flex items-center gap-1">
-              <span className="font-black text-xl tracking-wider text-white font-mono uppercase">
-                HOT<span className="text-[#00A3E0]">TAKES</span>
+              <span className="font-black text-lg tracking-tight uppercase font-display">
+                <span className="text-orange-600 dark:text-orange-500">HOT</span>
+                <span className="text-slate-900 dark:text-white">TAKES</span>
               </span>
-              <span className="text-[10px] font-bold text-sky-300 align-super">™</span>
+              <span className="text-[10px] font-extrabold text-orange-500 align-super">™</span>
             </div>
-            <p className="text-[9px] text-sky-200/80 tracking-tight font-medium">Football Community & Debates</p>
+            <p className="text-[9px] text-slate-500 dark:text-slate-400 tracking-tight font-semibold uppercase">Football Community & Debates</p>
           </div>
         </div>
 
         {/* Right Action Icons & Profile Info */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Light / Dark Mode Toggle for Eye Sensitivity */}
+          {onToggleTheme && (
+            <button
+              onClick={onToggleTheme}
+              className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all border border-slate-200 dark:border-slate-700/60"
+              title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {isDarkMode ? <Sun size={19} className="text-amber-400 fill-amber-400/20" /> : <Moon size={19} className="text-slate-700" />}
+            </button>
+          )}
+
           {/* Quick Search Button */}
           <button
             onClick={onOpenSearch}
-            className="p-2 rounded-full text-sky-100 hover:bg-white/10 transition-colors"
+            className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             title="Search users, clubs, takes"
           >
             <Search size={19} />
@@ -57,12 +78,12 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Notifications Button */}
           <button
             onClick={onOpenNotifications}
-            className="p-2 rounded-full text-sky-100 hover:bg-white/10 transition-colors relative"
+            className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors relative"
             title="Notifications"
           >
             <Bell size={19} />
             {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white font-bold text-[10px] rounded-full flex items-center justify-center animate-pulse">
+              <span className="absolute top-1 right-1 w-4 h-4 bg-orange-600 text-white font-extrabold text-[10px] rounded-full flex items-center justify-center animate-pulse">
                 {unreadCount}
               </span>
             )}
@@ -72,7 +93,7 @@ export const Header: React.FC<HeaderProps> = ({
           {user.role === 'ADMIN' && (
             <button
               onClick={onOpenAdmin}
-              className="p-2 rounded-full text-amber-300 hover:bg-amber-500/20 transition-colors hidden sm:flex items-center gap-1 text-xs font-semibold"
+              className="p-2 rounded-full text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors hidden sm:flex items-center gap-1 text-xs font-bold"
               title="Admin Panel"
             >
               <Shield size={18} />
@@ -84,19 +105,19 @@ export const Header: React.FC<HeaderProps> = ({
           {isLoggedIn ? (
             <div
               onClick={onOpenProfile}
-              className="flex items-center gap-2 pl-2 pr-2.5 py-1 rounded-full bg-white/10 hover:bg-white/15 transition-all cursor-pointer border border-sky-400/30"
+              className="flex items-center gap-2 pl-2 pr-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all cursor-pointer border border-slate-200 dark:border-slate-700"
             >
               <img
                 src={user.avatar}
                 alt={user.displayName}
-                className="w-7 h-7 rounded-full object-cover border border-white/40"
+                className="w-7 h-7 rounded-full object-cover border border-slate-300 dark:border-slate-600"
               />
               <div className="hidden sm:block text-left">
                 <div className="flex items-center gap-1">
-                  <span className="text-xs font-bold text-white max-w-[90px] truncate">{user.displayName}</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white max-w-[90px] truncate">{user.displayName}</span>
                   {user.isVerified && <VerifiedBadge size={13} />}
                 </div>
-                <span className="text-[10px] font-medium text-sky-300 block leading-tight">
+                <span className="text-[10px] font-semibold text-orange-600 dark:text-orange-400 block leading-tight">
                   Lvl {user.level} • {user.xp} XP
                 </span>
               </div>
@@ -104,7 +125,7 @@ export const Header: React.FC<HeaderProps> = ({
           ) : (
             <button
               onClick={onOpenAuth}
-              className="px-3.5 py-1.5 rounded-full bg-[#00A3E0] hover:bg-sky-400 text-[#0B1E3D] font-bold text-xs transition-all flex items-center gap-1 shadow-sm"
+              className="px-3.5 py-1.5 rounded-full bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs transition-all flex items-center gap-1 shadow-xs"
             >
               <UserIcon size={15} />
               <span>Sign In</span>
@@ -115,3 +136,4 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
+

@@ -114,13 +114,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-[#0C1D38] text-slate-900 dark:text-white rounded-2xl w-full max-w-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden my-auto">
+    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-white dark:bg-[#1E293B] text-slate-900 dark:text-white rounded-2xl w-full max-w-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden my-auto">
         {/* Modal Top Bar */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50 dark:bg-[#07152B]">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
           <div className="flex items-center gap-2">
-            <FlameIcon size={20} className="text-[#00A3E0]" />
-            <h2 className="font-bold text-base">Publish Hot Take</h2>
+            <FlameIcon size={20} className="text-orange-500" />
+            <h2 className="font-extrabold text-base">Publish Hot Take</h2>
           </div>
           <button
             onClick={onClose}
@@ -136,11 +136,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             <img
               src={user.avatar}
               alt={user.displayName}
-              className="w-10 h-10 rounded-full object-cover border border-slate-200"
+              className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700"
             />
             <div>
-              <div className="font-bold text-sm leading-tight">{user.displayName}</div>
-              <span className="text-xs text-sky-500 font-medium">@{user.username} • Lvl {user.level} Author</span>
+              <div className="font-bold text-sm leading-tight text-slate-900 dark:text-white">{user.displayName}</div>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">@{user.username} • Lvl {user.level} Author</span>
             </div>
           </div>
 
@@ -152,7 +152,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               placeholder="What is your spiciest football opinion today? (e.g., 'Tactically, Arsenal double pivot locks down Madrid...')"
               rows={4}
               maxLength={400}
-              className="w-full bg-slate-50 dark:bg-[#07152B] p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm focus:outline-hidden focus:border-[#00A3E0] resize-none"
+              className="w-full bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700/80 text-sm focus:outline-hidden focus:border-orange-500 resize-none text-slate-900 dark:text-white placeholder-slate-400"
               required
             />
             <div className="flex justify-between items-center text-[11px] text-slate-400 mt-1">
@@ -162,27 +162,27 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           </div>
 
           {/* AI Hot Take Analyzer Button */}
-          <div className="bg-sky-50 dark:bg-sky-950/30 p-3 rounded-xl border border-sky-200 dark:border-sky-900/50">
+          <div className="bg-slate-50 dark:bg-slate-900/70 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-bold text-sky-700 dark:text-sky-300">
-                <Sparkles size={16} className="text-[#00A3E0]" />
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-white">
+                <Sparkles size={16} className="text-orange-500" />
                 <span>AI Hot Take Meter Analyzer</span>
               </div>
               <button
                 type="button"
                 onClick={handleAiAnalyze}
                 disabled={!content.trim() || isAnalyzing}
-                className="px-3 py-1 rounded-lg bg-[#00A3E0] hover:bg-sky-400 text-[#0B1E3D] font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1 shadow-xs"
+                className="px-3 py-1 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs transition-all disabled:opacity-50 flex items-center gap-1 shadow-xs"
               >
                 {isAnalyzing ? 'Analyzing...' : 'Test Spiciness'}
               </button>
             </div>
 
             {aiResult && (
-              <div className="mt-2.5 pt-2 border-t border-sky-200 dark:border-sky-900/40 text-xs space-y-1.5">
+              <div className="mt-2.5 pt-2 border-t border-slate-200 dark:border-slate-800 text-xs space-y-1.5">
                 <div className="flex items-center justify-between font-bold">
                   <span>Spiciness Score: <span className="text-red-500">{aiResult.spicinessScore}/100</span></span>
-                  <span className="text-slate-600 dark:text-slate-300">Hot Meter: <strong className="text-[#00A3E0]">{aiResult.hotMeter}</strong></span>
+                  <span className="text-slate-600 dark:text-slate-300">Hot Meter: <strong className="text-slate-900 dark:text-white">{aiResult.hotMeter}</strong></span>
                 </div>
                 <p className="text-slate-600 dark:text-slate-300 italic">{aiResult.aiSummary}</p>
               </div>
@@ -198,7 +198,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               <select
                 value={hotMeter}
                 onChange={(e) => setHotMeter(e.target.value as HotMeterLevel)}
-                className="w-full bg-slate-50 dark:bg-[#07152B] border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-xs font-bold text-slate-800 dark:text-slate-200"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs font-bold text-slate-800 dark:text-slate-200"
               >
                 <option value="MILD">Mild Take</option>
                 <option value="SPICY">Spicy Take</option>
@@ -213,7 +213,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               <select
                 value={communityVerdict}
                 onChange={(e) => setCommunityVerdict(e.target.value as CommunityVerdict)}
-                className="w-full bg-slate-50 dark:bg-[#07152B] border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-xs font-bold text-slate-800 dark:text-slate-200"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs font-bold text-slate-800 dark:text-slate-200"
               >
                 <option value="COLD_TAKE">Cold Take</option>
                 <option value="WARM_TAKE">Warm Take</option>
@@ -232,8 +232,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 type="text"
                 value={taggedClub}
                 onChange={(e) => setTaggedClub(e.target.value)}
-                placeholder="e.g. Manchester City"
-                className="w-full bg-slate-50 dark:bg-[#07152B] border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-xs"
+                placeholder="e.g. Arsenal"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-900 dark:text-white"
               />
             </div>
             <div>
@@ -242,8 +242,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 type="text"
                 value={taggedPlayer}
                 onChange={(e) => setTaggedPlayer(e.target.value)}
-                placeholder="e.g. Rodri"
-                className="w-full bg-slate-50 dark:bg-[#07152B] border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-xs"
+                placeholder="e.g. Bukayo Saka"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-900 dark:text-white"
               />
             </div>
           </div>
@@ -258,12 +258,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 onChange={(e) => setHashtagInput(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddHashtag(); } }}
                 placeholder="Add hashtag (press Enter)"
-                className="flex-1 bg-slate-50 dark:bg-[#07152B] border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-xs"
+                className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-900 dark:text-white"
               />
               <button
                 type="button"
                 onClick={handleAddHashtag}
-                className="px-3 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-xs font-bold rounded-lg"
+                className="px-3 py-1 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-xs font-bold rounded-lg text-slate-900 dark:text-white"
               >
                 Add
               </button>
@@ -272,7 +272,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               {hashtags.map((tag) => (
                 <span
                   key={tag}
-                  className="bg-sky-500/10 text-[#00A3E0] px-2 py-0.5 rounded-md text-xs font-medium flex items-center gap-1"
+                  className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 px-2 py-0.5 rounded-md text-xs font-medium flex items-center gap-1 border border-slate-200 dark:border-slate-700"
                 >
                   #{tag}
                   <button type="button" onClick={() => handleRemoveHashtag(tag)} className="hover:text-red-500 ml-0.5">
@@ -290,7 +290,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               <button
                 type="button"
                 onClick={() => setShowImageField(!showImageField)}
-                className="text-xs text-[#00A3E0] font-bold hover:underline flex items-center gap-1"
+                className="text-xs text-orange-600 dark:text-orange-400 font-bold hover:underline flex items-center gap-1"
               >
                 <Image size={14} />
                 <span>{showImageField ? 'Cancel' : 'Attach Image'}</span>
@@ -303,12 +303,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   value={imageInput}
                   onChange={(e) => setImageInput(e.target.value)}
                   placeholder="https://images.unsplash.com/..."
-                  className="flex-1 bg-slate-50 dark:bg-[#07152B] border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-xs"
+                  className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-900 dark:text-white"
                 />
                 <button
                   type="button"
                   onClick={handleAddImage}
-                  className="px-3 py-1 bg-[#00A3E0] text-white text-xs font-bold rounded-lg"
+                  className="px-3 py-1 bg-orange-600 text-white text-xs font-bold rounded-lg"
                 >
                   Attach
                 </button>
@@ -347,7 +347,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             <button
               type="submit"
               disabled={!content.trim()}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#0B1E3D] to-[#00A3E0] hover:opacity-95 text-white font-bold text-xs transition-all flex items-center gap-2 shadow-md shadow-sky-500/20 disabled:opacity-50"
+              className="px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs transition-all flex items-center gap-2 shadow-xs disabled:opacity-50"
             >
               <Send size={15} />
               <span>Publish Take</span>

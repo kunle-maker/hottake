@@ -21,22 +21,22 @@ export const SearchExploreView: React.FC<SearchExploreViewProps> = ({
 
   const trendingHashtags = [
     { tag: 'GoldenBall', postsCount: '48.2k takes' },
-    { tag: 'Rodri', postsCount: '38.9k takes' },
-    { tag: 'PepOut', postsCount: '24.1k takes' },
+    { tag: 'SakaMagic', postsCount: '38.9k takes' },
+    { tag: 'ArtetaEra', postsCount: '24.1k takes' },
     { tag: 'MbappeReal', postsCount: '19.4k takes' },
     { tag: 'NicoWilliamsBarca', postsCount: '15.8k takes' },
     { tag: 'ChampionsLeague', postsCount: '89.0k takes' }
   ];
 
   const trendingPlayers = [
-    { name: 'Rodri', club: 'Man City', position: 'Midfielder', rating: 'World Champion' },
-    { name: 'Rayan Cherki', club: 'Man City', position: 'Attacking Mid', rating: 'Debut Goal Hero' },
+    { name: 'Bukayo Saka', club: 'Arsenal', position: 'Winger', rating: 'World Class' },
+    { name: 'Martin Ødegaard', club: 'Arsenal', position: 'Attacking Mid', rating: 'Mastermind' },
     { name: 'Kylian Mbappé', club: 'Real Madrid', position: 'Forward', rating: '3 Goals in 2' },
-    { name: 'Erling Haaland', club: 'Man City', position: 'Striker', rating: 'Pre-season Top Scorer' }
+    { name: 'Declan Rice', club: 'Arsenal', position: 'Midfielder', rating: 'Anchor' }
   ];
 
   const featuredCreators = [
-    { name: 'Liam Davies', handle: 'TacticsGuru', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80', level: 18, club: 'Man City' },
+    { name: 'Liam Davies', handle: 'TacticsGuru', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80', level: 18, club: 'Arsenal' },
     { name: 'Kofi Mensah', handle: 'ArsenalPundit', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80', level: 14, club: 'Arsenal' },
     { name: 'Carlos Silva', handle: 'MadridistaKing', avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=120&auto=format&fit=crop&q=80', level: 9, club: 'Real Madrid' }
   ];
@@ -62,8 +62,8 @@ export const SearchExploreView: React.FC<SearchExploreViewProps> = ({
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search Hot Takes, clubs, players (#Rodri, #PepOut, Man City)..."
-          className="w-full bg-white dark:bg-[#0C1D38] border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 pr-4 py-3 text-sm focus:outline-hidden focus:border-[#00A3E0] shadow-xs"
+          placeholder="Search Hot Takes, clubs, players (#Saka, #Arsenal, Real Madrid)..."
+          className="w-full bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 pr-4 py-3 text-sm focus:outline-hidden focus:border-orange-500 shadow-xs text-slate-900 dark:text-white placeholder-slate-400"
         />
         {searchQuery && (
           <button
@@ -85,17 +85,17 @@ export const SearchExploreView: React.FC<SearchExploreViewProps> = ({
           {/* Communities Results */}
           {filteredCommunities.length > 0 && (
             <div className="space-y-2">
-              <h3 className="text-xs font-bold uppercase text-[#00A3E0] tracking-wider">Clubs & Communities</h3>
+              <h3 className="text-xs font-bold uppercase text-slate-500 dark:text-slate-400 tracking-wider">Clubs & Communities</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {filteredCommunities.map((c) => (
                   <div
                     key={c.id}
                     onClick={() => onSelectCommunity(c.id)}
-                    className="p-3 bg-white dark:bg-[#0C1D38] rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3 cursor-pointer hover:border-[#00A3E0]"
+                    className="p-3 bg-white dark:bg-[#1E293B] rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3 cursor-pointer hover:border-orange-500"
                   >
                     <img src={c.crest} alt={c.name} className="w-9 h-9 rounded-full object-cover" />
                     <div>
-                      <h4 className="font-bold text-xs">{c.name}</h4>
+                      <h4 className="font-bold text-xs text-slate-900 dark:text-white">{c.name}</h4>
                       <p className="text-[10px] text-slate-500">{c.membersCount.toLocaleString()} members</p>
                     </div>
                   </div>
@@ -106,19 +106,19 @@ export const SearchExploreView: React.FC<SearchExploreViewProps> = ({
 
           {/* Post Results */}
           <div className="space-y-2">
-            <h3 className="text-xs font-bold uppercase text-[#00A3E0] tracking-wider">Hot Takes ({filteredPosts.length})</h3>
+            <h3 className="text-xs font-bold uppercase text-slate-500 dark:text-slate-400 tracking-wider">Hot Takes ({filteredPosts.length})</h3>
             {filteredPosts.length > 0 ? (
               filteredPosts.map((p) => (
                 <div
                   key={p.id}
                   onClick={() => onOpenPost(p)}
-                  className="p-3.5 bg-white dark:bg-[#0C1D38] rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-[#00A3E0] space-y-1"
+                  className="p-3.5 bg-white dark:bg-[#1E293B] rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-orange-500 space-y-1"
                 >
                   <div className="flex items-center justify-between text-xs text-slate-500">
                     <span className="font-bold text-slate-800 dark:text-slate-200">@{p.author.username}</span>
                     <span>{p.createdAt}</span>
                   </div>
-                  <p className="text-xs line-clamp-2">{p.content}</p>
+                  <p className="text-xs line-clamp-2 text-slate-800 dark:text-slate-200">{p.content}</p>
                 </div>
               ))
             ) : (
@@ -130,13 +130,13 @@ export const SearchExploreView: React.FC<SearchExploreViewProps> = ({
         /* Explore Home / Trending Hub */
         <div className="space-y-5">
           {/* Trending Hashtags Grid */}
-          <section className="bg-white dark:bg-[#0C1D38] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <section className="bg-white dark:bg-[#1E293B] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <TrendingUp size={18} className="text-[#00A3E0]" />
-                <h2 className="font-bold text-sm">Trending Football Topics</h2>
+                <TrendingUp size={18} className="text-orange-500" />
+                <h2 className="font-bold text-sm text-slate-900 dark:text-white">Trending Football Topics</h2>
               </div>
-              <span className="text-[10px] bg-sky-500/10 text-[#00A3E0] px-2 py-0.5 rounded font-bold uppercase">
+              <span className="text-[10px] bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded font-bold uppercase border border-orange-500/20">
                 Realtime
               </span>
             </div>
@@ -146,24 +146,24 @@ export const SearchExploreView: React.FC<SearchExploreViewProps> = ({
                 <div
                   key={item.tag}
                   onClick={() => setSearchQuery(item.tag)}
-                  className="p-2.5 bg-slate-50 dark:bg-[#07152B] rounded-xl border border-slate-200/70 dark:border-slate-800/80 cursor-pointer hover:border-[#00A3E0] transition-all"
+                  className="p-2.5 bg-slate-50 dark:bg-slate-900/70 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-orange-500 transition-all"
                 >
-                  <div className="flex items-center gap-1 text-xs font-bold text-[#00A3E0]">
-                    <Hash size={13} />
+                  <div className="flex items-center gap-1 text-xs font-bold text-slate-900 dark:text-white">
+                    <Hash size={13} className="text-orange-500" />
                     <span>{item.tag}</span>
                   </div>
-                  <span className="text-[10px] text-slate-400 mt-0.5 block">{item.postsCount}</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 block">{item.postsCount}</span>
                 </div>
               ))}
             </div>
           </section>
 
           {/* Trending Players Cards */}
-          <section className="bg-white dark:bg-[#0C1D38] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <section className="bg-white dark:bg-[#1E293B] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Users size={18} className="text-[#00A3E0]" />
-                <h2 className="font-bold text-sm">Trending Players in Debates</h2>
+                <Users size={18} className="text-sky-500" />
+                <h2 className="font-bold text-sm text-slate-900 dark:text-white">Trending Players in Debates</h2>
               </div>
             </div>
 
@@ -172,13 +172,13 @@ export const SearchExploreView: React.FC<SearchExploreViewProps> = ({
                 <div
                   key={player.name}
                   onClick={() => setSearchQuery(player.name)}
-                  className="p-3 bg-slate-50 dark:bg-[#07152B] rounded-xl border border-slate-200/70 dark:border-slate-800/80 flex items-center justify-between cursor-pointer hover:border-[#00A3E0]"
+                  className="p-3 bg-slate-50 dark:bg-slate-900/70 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between cursor-pointer hover:border-sky-500"
                 >
                   <div>
                     <h3 className="font-bold text-xs text-slate-900 dark:text-white">{player.name}</h3>
                     <p className="text-[10px] text-slate-500">{player.club} • {player.position}</p>
                   </div>
-                  <span className="bg-sky-500/10 text-[#00A3E0] text-[10px] px-2 py-0.5 rounded-full font-bold">
+                  <span className="bg-sky-500/10 text-sky-600 dark:text-sky-400 text-[10px] px-2 py-0.5 rounded-full font-bold border border-sky-500/20">
                     {player.rating}
                   </span>
                 </div>
@@ -187,11 +187,11 @@ export const SearchExploreView: React.FC<SearchExploreViewProps> = ({
           </section>
 
           {/* Featured Creators List */}
-          <section className="bg-white dark:bg-[#0C1D38] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <section className="bg-white dark:bg-[#1E293B] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Shield size={18} className="text-[#00A3E0]" />
-                <h2 className="font-bold text-sm">Featured Hot Take Authors</h2>
+                <Shield size={18} className="text-emerald-500" />
+                <h2 className="font-bold text-sm text-slate-900 dark:text-white">Featured Hot Take Authors</h2>
               </div>
             </div>
 
@@ -199,20 +199,20 @@ export const SearchExploreView: React.FC<SearchExploreViewProps> = ({
               {featuredCreators.map((creator) => (
                 <div
                   key={creator.handle}
-                  className="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-[#07152B] rounded-xl border border-slate-200/70 dark:border-slate-800/80"
+                  className="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-900/70 rounded-xl border border-slate-200 dark:border-slate-800"
                 >
                   <div className="flex items-center gap-2.5">
                     <img src={creator.avatar} alt={creator.name} className="w-9 h-9 rounded-full object-cover" />
                     <div>
                       <div className="flex items-center gap-1">
-                        <span className="font-bold text-xs">{creator.name}</span>
+                        <span className="font-bold text-xs text-slate-900 dark:text-white">{creator.name}</span>
                         <VerifiedBadge size={12} />
                       </div>
                       <span className="text-[10px] text-slate-500">@{creator.handle} • Lvl {creator.level}</span>
                     </div>
                   </div>
 
-                  <button className="px-3 py-1 bg-[#00A3E0] hover:bg-sky-400 text-[#0B1E3D] font-bold text-xs rounded-lg flex items-center gap-1 transition-all">
+                  <button className="px-3 py-1 bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs rounded-lg flex items-center gap-1 transition-all shadow-xs">
                     <UserPlus size={13} />
                     <span>Follow</span>
                   </button>

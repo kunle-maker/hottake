@@ -14,11 +14,11 @@ export const NotificationsModal: React.FC<NotificationsModalProps> = ({
   onMarkAllRead
 }) => {
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
-      <div className="bg-white dark:bg-[#0C1D38] text-slate-900 dark:text-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-        <div className="p-4 bg-[#0B1E3D] text-white flex items-center justify-between border-b border-sky-900">
+    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+      <div className="bg-white dark:bg-[#1E293B] text-slate-900 dark:text-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+        <div className="p-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <Bell size={18} className="text-[#00A3E0]" />
+            <Bell size={18} className="text-orange-500" />
             <h3 className="font-extrabold text-sm">Notifications & Match Alerts</h3>
           </div>
           <button onClick={onClose} className="p-1 rounded-full hover:bg-white/10 text-slate-300">
@@ -26,9 +26,9 @@ export const NotificationsModal: React.FC<NotificationsModalProps> = ({
           </button>
         </div>
 
-        <div className="p-3 bg-slate-50 dark:bg-[#07152B] border-b border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs">
+        <div className="p-3 bg-slate-50 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs">
           <span className="font-bold text-slate-600 dark:text-slate-300">Activity Hub</span>
-          <button onClick={onMarkAllRead} className="text-[#00A3E0] font-bold hover:underline">
+          <button onClick={onMarkAllRead} className="text-orange-600 dark:text-orange-400 font-bold hover:underline">
             Mark all read
           </button>
         </div>
@@ -39,8 +39,8 @@ export const NotificationsModal: React.FC<NotificationsModalProps> = ({
               key={n.id}
               className={`p-3 rounded-xl border flex items-start gap-3 transition-colors ${
                 !n.isRead
-                  ? 'bg-sky-500/10 border-sky-500/30'
-                  : 'bg-slate-50 dark:bg-[#07152B] border-slate-200 dark:border-slate-800'
+                  ? 'bg-orange-500/10 border-orange-500/30'
+                  : 'bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800'
               }`}
             >
               <img src={n.actorAvatar} alt="Actor" className="w-9 h-9 rounded-full object-cover shrink-0" />

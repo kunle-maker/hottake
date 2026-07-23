@@ -38,8 +38,8 @@ let postsStore = [
     content: 'Unpopular opinion: Rodri winning the Golden Ball and World Cup triumph solidifies him as the most complete midfielder in football history. Better than Xavi or Busquets at their peaks because of his match-winning goals in key finals.',
     images: ['https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&auto=format&fit=crop&q=80'],
     hashtags: ['Rodri', 'GoldenBall', 'PremierLeague', 'MidfieldGOAT'],
-    taggedClub: 'Manchester City',
-    taggedPlayer: 'Rodri',
+    taggedClub: 'Arsenal',
+    taggedPlayer: 'Bukayo Saka',
     createdAt: '1h ago',
     hotMeter: 'NUCLEAR',
     communityVerdict: 'LEGENDARY',
@@ -141,12 +141,12 @@ let transfersStore = [
     playerAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
     fromClub: 'Olympique Lyonnais',
     fromClubCrest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=80&auto=format&fit=crop&q=80',
-    toClub: 'Manchester City',
-    toClubCrest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=80&auto=format&fit=crop&q=80',
+    toClub: 'Arsenal FC',
+    toClubCrest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=80&auto=format&fit=crop&q=80',
     fee: '€38M',
     type: 'CONFIRMED',
     tierReliability: 1,
-    summary: 'Here We Go! Rayan Cherki completes medical and signs a 5-year contract at Etihad.',
+    summary: 'Here We Go! Rayan Cherki completes medical and signs a 5-year contract at Emirates Stadium.',
     date: 'July 2026',
     likesCount: 1420
   },
@@ -351,8 +351,8 @@ app.get("/api/fixtures", async (req, res) => {
       league: 'Club Friendly',
       leagueLogo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=60&auto=format&fit=crop&q=80',
       homeTeam: {
-        name: 'Man City',
-        crest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop&q=80',
+        name: 'Arsenal',
+        crest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=100&auto=format&fit=crop&q=80',
         score: liveHomeScore
       },
       awayTeam: {
@@ -376,8 +376,8 @@ app.get("/api/fixtures", async (req, res) => {
         score: 0
       },
       awayTeam: {
-        name: 'Man City',
-        crest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop&q=80',
+        name: 'Arsenal',
+        crest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=100&auto=format&fit=crop&q=80',
         score: 0
       },
       status: 'UPCOMING',

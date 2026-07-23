@@ -45,6 +45,22 @@ export default function App() {
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [activeCommentsPost, setActiveCommentsPost] = useState<Post | null>(null);
 
+  // Theme State (Dark / Light Mode for Eye Sensitivity)
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('hottakes_theme');
+    return saved ? saved === 'dark' : true;
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('hottakes_theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('hottakes_theme', 'light');
+    }
+  }, [isDarkMode]);
+
   // Persist local state
   useEffect(() => {
     localStorage.setItem('hottakes_user', JSON.stringify(user));
@@ -275,7 +291,7 @@ export default function App() {
   const bookmarkedPosts = posts.filter(p => p.isBookmarkedByMe);
 
   return (
-    <div className="min-h-screen bg-[#F4F7FA] dark:bg-[#07152B] text-slate-900 dark:text-white font-sans antialiased selection:bg-[#00A3E0] selection:text-white">
+    <div className="min-h-screen bg-zinc-100 dark:bg-[#121214] text-zinc-900 dark:text-zinc-100 font-sans antialiased selection:bg-zinc-800 selection:text-white dark:selection:bg-zinc-200 dark:selection:text-black">
       {/* Top Header */}
       <Header
         user={user}
@@ -286,6 +302,8 @@ export default function App() {
         onOpenAdmin={() => setShowAdminModal(true)}
         onOpenAuth={() => setShowAuthModal(true)}
         isLoggedIn={isLoggedIn}
+        isDarkMode={isDarkMode}
+        onToggleTheme={() => setIsDarkMode((prev) => !prev)}
       />
 
       {/* Main Container */}
@@ -359,6 +377,8 @@ export default function App() {
               setShowAuthModal(true);
             }}
             onOpenAdmin={() => setShowAdminModal(true)}
+            isDarkMode={isDarkMode}
+            onToggleTheme={() => setIsDarkMode((prev) => !prev)}
           />
         )}
       </main>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { FootballIcon } from './CustomIcons';
-import { X, Eye, EyeOff, Lock, Mail, Calendar, HelpCircle } from 'lucide-react';
+import { X, Eye, EyeOff, Lock, Mail, HelpCircle } from 'lucide-react';
 
 interface AuthModalProps {
   onClose: () => void;
@@ -19,6 +18,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
   const [dobMonth, setDobMonth] = useState('');
   const [dobYear, setDobYear] = useState('');
 
+  const logoUrl = "https://i.ibb.co/d4tFKk7c/1e12634183c9.jpg";
+
   const handleAuthSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!emailOrSupporter) return;
@@ -29,37 +30,40 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-      <div className="bg-white text-slate-900 rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 overflow-hidden my-auto">
-        {/* Banner with player image style matching screenshot */}
-        <div className="bg-gradient-to-r from-[#0B1E3D] via-[#0E2854] to-[#00A3E0] p-4 text-white relative text-center">
+    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-white dark:bg-[#1E293B] text-slate-900 dark:text-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden my-auto">
+        {/* Banner with app logo */}
+        <div className="bg-slate-900 text-white p-5 relative text-center border-b border-slate-800">
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 p-1 rounded-full bg-black/20 hover:bg-black/40 text-white"
+            className="absolute top-3 right-3 p-1 rounded-full bg-slate-800 hover:bg-slate-700 text-white transition-colors"
           >
             <X size={18} />
           </button>
 
-          <div className="w-12 h-12 rounded-full bg-white/10 border border-white/30 flex items-center justify-center mx-auto mb-2">
-            <FootballIcon size={24} className="text-[#00A3E0]" />
-          </div>
+          <img
+            src={logoUrl}
+            alt="HotTakes Logo"
+            className="w-12 h-12 rounded-full object-cover border border-slate-700 mx-auto mb-2 shadow-md"
+            referrerPolicy="no-referrer"
+          />
 
-          <h2 className="font-black text-xl tracking-wider font-mono uppercase">
+          <h2 className="font-black text-xl tracking-tight uppercase text-white">
             {mode === 'SIGN_IN' ? 'SIGN IN TO HOT TAKES' : 'CREATE YOUR ACCOUNT'}
           </h2>
-          <p className="text-xs text-sky-200 mt-0.5">
+          <p className="text-xs text-slate-400 mt-0.5 font-medium">
             Join 1.2M football fans debating global football every matchday.
           </p>
         </div>
 
-        {/* Tab Switcher matching screenshot: SIGN IN | REGISTER */}
-        <div className="grid grid-cols-2 border-b border-slate-200 bg-slate-100 text-sm font-black font-mono">
+        {/* Tab Switcher: SIGN IN | REGISTER */}
+        <div className="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 text-sm font-extrabold">
           <button
             onClick={() => setMode('SIGN_IN')}
             className={`py-3 text-center transition-colors uppercase tracking-wider ${
               mode === 'SIGN_IN'
-                ? 'bg-[#0B1E3D] text-white'
-                : 'bg-white text-slate-600 hover:bg-slate-50'
+                ? 'bg-orange-600 text-white font-black'
+                : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800'
             }`}
           >
             SIGN IN
@@ -69,8 +73,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
             onClick={() => setMode('REGISTER')}
             className={`py-3 text-center transition-colors uppercase tracking-wider ${
               mode === 'REGISTER'
-                ? 'bg-[#0B1E3D] text-white'
-                : 'bg-white text-slate-600 hover:bg-slate-50'
+                ? 'bg-orange-600 text-white font-black'
+                : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800'
             }`}
           >
             REGISTER
@@ -80,8 +84,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
         {/* Form Body */}
         <form onSubmit={handleAuthSubmit} className="p-5 space-y-4 text-xs">
           {mode === 'REGISTER' && (
-            <div className="space-y-3 bg-sky-50/60 p-3.5 rounded-xl border border-sky-100">
-              <div className="flex items-center gap-1 font-bold text-slate-800">
+            <div className="space-y-3 bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
+              <div className="flex items-center gap-1 font-bold text-slate-800 dark:text-slate-200">
                 <span className="text-red-500">*</span> Date of Birth
                 <HelpCircle size={14} className="text-slate-400 ml-auto" />
               </div>
@@ -90,7 +94,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
                 <select
                   value={dobDay}
                   onChange={(e) => setDobDay(e.target.value)}
-                  className="p-2 border border-slate-300 rounded-lg bg-white font-medium"
+                  className="p-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-[#1E293B] text-slate-900 dark:text-white font-semibold"
                 >
                   <option value="">Day</option>
                   {Array.from({ length: 31 }, (_, i) => (
@@ -101,7 +105,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
                 <select
                   value={dobMonth}
                   onChange={(e) => setDobMonth(e.target.value)}
-                  className="p-2 border border-slate-300 rounded-lg bg-white font-medium"
+                  className="p-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-[#1E293B] text-slate-900 dark:text-white font-semibold"
                 >
                   <option value="">Month</option>
                   {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((m) => (
@@ -112,7 +116,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
                 <select
                   value={dobYear}
                   onChange={(e) => setDobYear(e.target.value)}
-                  className="p-2 border border-slate-300 rounded-lg bg-white font-medium"
+                  className="p-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-[#1E293B] text-slate-900 dark:text-white font-semibold"
                 >
                   <option value="">Year</option>
                   {Array.from({ length: 70 }, (_, i) => (
@@ -121,7 +125,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
                 </select>
               </div>
 
-              <p className="text-[10px] text-slate-500 italic">
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                 Required for security and verification eligibility.
               </p>
             </div>
@@ -129,8 +133,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
 
           {/* Email / Supporter input */}
           <div>
-            <label className="block font-bold text-slate-700 mb-1">
-              Email Address or Supporter Number <span className="text-red-500">*</span>
+            <label className="block font-extrabold text-slate-800 dark:text-slate-200 mb-1">
+              Email Address or Fan ID <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -138,8 +142,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
                 type="text"
                 value={emailOrSupporter}
                 onChange={(e) => setEmailOrSupporter(e.target.value)}
-                placeholder="Email Address or Supporter Number"
-                className="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-xl focus:border-[#00A3E0] focus:outline-hidden font-medium"
+                placeholder="Email Address or Fan ID"
+                className="w-full pl-9 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-[#1E293B] text-slate-900 dark:text-white focus:border-orange-500 focus:outline-hidden font-medium"
                 required
               />
             </div>
@@ -147,7 +151,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
 
           {/* Password Input */}
           <div>
-            <label className="block font-bold text-slate-700 mb-1">
+            <label className="block font-extrabold text-slate-800 dark:text-slate-200 mb-1">
               Password <span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -157,13 +161,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full pl-9 pr-10 py-2.5 border border-slate-300 rounded-xl focus:border-[#00A3E0] focus:outline-hidden font-medium"
+                className="w-full pl-9 pr-10 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-[#1E293B] text-slate-900 dark:text-white focus:border-orange-500 focus:outline-hidden font-medium"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
@@ -172,7 +176,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
 
           {mode === 'REGISTER' && (
             <div>
-              <label className="block font-bold text-slate-700 mb-1">
+              <label className="block font-extrabold text-slate-800 dark:text-slate-200 mb-1">
                 Confirm Password <span className="text-red-500">*</span>
               </label>
               <div className="relative">
@@ -182,7 +186,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
-                  className="w-full pl-9 pr-10 py-2.5 border border-slate-300 rounded-xl focus:border-[#00A3E0] focus:outline-hidden font-medium"
+                  className="w-full pl-9 pr-10 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-[#1E293B] text-slate-900 dark:text-white focus:border-orange-500 focus:outline-hidden font-medium"
                 />
               </div>
             </div>
@@ -190,16 +194,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
 
           {mode === 'SIGN_IN' && (
             <div className="text-right">
-              <a href="#forgot" className="font-bold text-[#00A3E0] hover:underline text-[11px]">
+              <a href="#forgot" className="font-extrabold text-slate-800 dark:text-slate-200 hover:underline text-[11px]">
                 Forgot your password?
               </a>
             </div>
           )}
 
-          {/* Submit Button matching screenshot */}
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-[#0B1E3D] hover:bg-[#00A3E0] text-white font-black uppercase tracking-wider text-xs transition-all shadow-md"
+            className="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold uppercase tracking-wider text-xs transition-all shadow-md"
           >
             {mode === 'SIGN_IN' ? 'SIGN IN' : 'REGISTER NOW'}
           </button>
@@ -207,9 +211,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
           {/* Social Sign in option */}
           <div className="relative text-center my-3">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200" />
+              <div className="w-full border-t border-slate-200 dark:border-slate-800" />
             </div>
-            <span className="relative bg-white px-2 text-[10px] text-slate-400 uppercase font-bold">
+            <span className="relative bg-white dark:bg-[#1E293B] px-2 text-[10px] text-slate-400 uppercase font-extrabold">
               OR CONTINUE WITH
             </span>
           </div>
@@ -221,7 +225,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
               onLoginSuccess('Ayodele');
               onClose();
             }}
-            className="w-full py-2.5 border border-slate-300 hover:bg-slate-50 rounded-xl font-bold text-slate-700 text-xs transition-all flex items-center justify-center gap-2"
+            className="w-full py-2.5 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-bold text-slate-800 dark:text-slate-200 text-xs transition-all flex items-center justify-center gap-2"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path
@@ -248,3 +252,4 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
     </div>
   );
 };
+

@@ -96,23 +96,23 @@ export const VerifiedBadge: React.FC<{ size?: number; className?: string }> = ({
 export const HotMeterBadge: React.FC<{ level: 'MILD' | 'SPICY' | 'NUCLEAR' }> = ({ level }) => {
   if (level === 'NUCLEAR') {
     return (
-      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-red-600 to-amber-500 text-white shadow-xs">
-        <FlameIcon size={12} className="animate-pulse" />
+      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-black bg-gradient-to-r from-red-600 via-orange-600 to-amber-500 text-white shadow-xs">
+        <FlameIcon size={12} className="animate-bounce" />
         NUCLEAR
       </span>
     );
   }
   if (level === 'SPICY') {
     return (
-      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 border border-amber-500/30">
-        <FlameIcon size={12} />
+      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-500/10 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 border border-orange-500/30">
+        <FlameIcon size={12} className="text-orange-500" />
         SPICY
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-500/10 text-sky-600 dark:bg-sky-500/20 dark:text-sky-300 border border-sky-500/20">
-      <FlameIcon size={12} />
+    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-600 dark:bg-sky-500/20 dark:text-sky-300 border border-sky-500/30">
+      <FlameIcon size={12} className="text-sky-500" />
       MILD
     </span>
   );
@@ -121,28 +121,28 @@ export const HotMeterBadge: React.FC<{ level: 'MILD' | 'SPICY' | 'NUCLEAR' }> = 
 // Verdict Badge Mapper
 export const CommunityVerdictBadge: React.FC<{ verdict: string }> = ({ verdict }) => {
   let label = 'WARM TAKE';
-  let styles = 'bg-slate-100 text-slate-700 border-slate-200';
+  let styles = 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700';
 
   switch (verdict) {
     case 'COLD_TAKE':
       label = 'Cold Take';
-      styles = 'bg-blue-500/10 text-blue-600 border-blue-300';
+      styles = 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/50 font-bold';
       break;
     case 'WARM_TAKE':
       label = 'Warm Take';
-      styles = 'bg-amber-500/10 text-amber-700 border-amber-300';
+      styles = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800/50 font-bold';
       break;
     case 'HOT_TAKE':
       label = 'Hot Take!';
-      styles = 'bg-orange-500/10 text-orange-600 border-orange-300 font-bold';
+      styles = 'bg-orange-500/15 text-orange-600 dark:text-orange-400 border-orange-300 dark:border-orange-800/60 font-black';
       break;
     case 'VOLCANIC':
       label = 'Volcanic Take';
-      styles = 'bg-red-500/15 text-red-600 border-red-400 font-bold';
+      styles = 'bg-red-500/15 text-red-600 dark:text-red-400 border-red-300 dark:border-red-800/60 font-black';
       break;
     case 'LEGENDARY':
       label = 'Legendary Take';
-      styles = 'bg-purple-600/15 text-purple-700 border-purple-400 font-extrabold tracking-wide';
+      styles = 'bg-purple-600/15 text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-800/60 font-black tracking-wide';
       break;
   }
 

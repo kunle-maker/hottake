@@ -80,11 +80,11 @@ export const PostCard: React.FC<PostCardProps> = ({
   };
 
   return (
-    <article className="bg-white dark:bg-[#0C1D38] rounded-2xl p-4 mb-3.5 shadow-xs border border-slate-200/80 dark:border-slate-800/80 hover:border-sky-500/30 transition-all">
+    <article className="bg-white dark:bg-[#1E293B] rounded-2xl p-4 mb-3.5 shadow-sm border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all">
       {/* Repost Header if applicable */}
       {post.repostAuthor && (
         <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">
-          <Repeat size={13} className="text-[#00A3E0]" />
+          <Repeat size={13} className="text-orange-500" />
           <span>{post.repostAuthor} reposted</span>
         </div>
       )}
@@ -102,7 +102,7 @@ export const PostCard: React.FC<PostCardProps> = ({
               <img
                 src={post.author.favoriteClubCrest}
                 alt="Club"
-                className="w-4 h-4 rounded-full object-cover absolute -bottom-1 -right-1 border border-white dark:border-[#0C1D38]"
+                className="w-4 h-4 rounded-full object-cover absolute -bottom-1 -right-1 border border-white dark:border-slate-900 shadow-xs"
               />
             )}
           </div>
@@ -113,7 +113,7 @@ export const PostCard: React.FC<PostCardProps> = ({
                 {post.author.displayName}
               </span>
               {post.author.isVerified && <VerifiedBadge size={14} />}
-              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-100 dark:bg-slate-800 font-semibold text-slate-600 dark:text-slate-300">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-orange-500/10 dark:bg-orange-500/20 font-bold text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30">
                 Lvl {post.author.level}
               </span>
             </div>
@@ -134,9 +134,9 @@ export const PostCard: React.FC<PostCardProps> = ({
 
       {/* Tagged Context Pill if available */}
       {(post.taggedClub || post.taggedPlayer) && (
-        <div className="mb-2 flex items-center gap-2 text-xs font-semibold text-[#00A3E0]">
-          {post.taggedClub && <span className="bg-sky-500/10 px-2 py-0.5 rounded-md"># {post.taggedClub}</span>}
-          {post.taggedPlayer && <span className="bg-sky-500/10 px-2 py-0.5 rounded-md">👤 {post.taggedPlayer}</span>}
+        <div className="mb-2 flex items-center gap-2 text-xs font-semibold text-slate-800 dark:text-slate-200">
+          {post.taggedClub && <span className="bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-800/50"># {post.taggedClub}</span>}
+          {post.taggedPlayer && <span className="bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">👤 {post.taggedPlayer}</span>}
         </div>
       )}
 
@@ -149,7 +149,7 @@ export const PostCard: React.FC<PostCardProps> = ({
       {post.hashtags && post.hashtags.length > 0 && (
         <div className="flex items-center gap-1.5 flex-wrap mb-3">
           {post.hashtags.map((tag) => (
-            <span key={tag} className="text-xs font-semibold text-[#00A3E0] hover:underline cursor-pointer">
+            <span key={tag} className="text-xs font-bold text-sky-600 dark:text-sky-400 hover:underline cursor-pointer">
               #{tag}
             </span>
           ))}
@@ -158,7 +158,7 @@ export const PostCard: React.FC<PostCardProps> = ({
 
       {/* Media Images */}
       {post.images && post.images.length > 0 && (
-        <div className="rounded-xl overflow-hidden mb-3.5 max-h-80 border border-slate-200 dark:border-slate-800 bg-slate-900">
+        <div className="rounded-xl overflow-hidden mb-3.5 max-h-80 border border-slate-200 dark:border-slate-800 bg-slate-950">
           <img
             src={post.images[0]}
             alt="Hot take media"
@@ -168,10 +168,10 @@ export const PostCard: React.FC<PostCardProps> = ({
       )}
 
       {/* "Aged Like Fine Wine" vs "Aged Like Milk" Voting Widget */}
-      <div className="bg-slate-50 dark:bg-[#07152B] rounded-xl p-3 mb-3 border border-slate-200/60 dark:border-slate-800/80">
+      <div className="bg-slate-50 dark:bg-slate-900/70 rounded-xl p-3 mb-3 border border-slate-200 dark:border-slate-800">
         <div className="flex items-center justify-between text-xs mb-1.5 font-bold">
-          <span className="text-slate-600 dark:text-slate-300">Aged Like...</span>
-          <span className="text-[11px] font-medium text-slate-400">
+          <span className="text-slate-700 dark:text-slate-300">Aged Like...</span>
+          <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
             {totalAgedVotes} community votes
           </span>
         </div>
@@ -183,7 +183,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             className={`flex items-center justify-center gap-2 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
               post.myAgedVote === 'FINE_WINE'
                 ? 'bg-purple-600 text-white shadow-xs'
-                : 'bg-white dark:bg-slate-800 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50 hover:bg-purple-50'
+                : 'bg-white dark:bg-slate-800 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50 hover:bg-purple-50 dark:hover:bg-slate-700'
             }`}
           >
             <WineIcon size={16} />
@@ -195,7 +195,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             className={`flex items-center justify-center gap-2 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
               post.myAgedVote === 'MILK'
                 ? 'bg-amber-600 text-white shadow-xs'
-                : 'bg-white dark:bg-slate-800 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50 hover:bg-amber-50'
+                : 'bg-white dark:bg-slate-800 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50 hover:bg-amber-50 dark:hover:bg-slate-700'
             }`}
           >
             <MilkIcon size={16} />
@@ -212,7 +212,7 @@ export const PostCard: React.FC<PostCardProps> = ({
                 style={{ width: `${winePercent}%` }}
               />
             </div>
-            <div className="flex justify-between text-[10px] font-medium text-slate-500 dark:text-slate-400">
+            <div className="flex justify-between text-[10px] font-medium text-zinc-500 dark:text-zinc-400">
               <span>{winePercent}% Wine</span>
               <span>{100 - winePercent}% Milk</span>
             </div>
@@ -221,7 +221,7 @@ export const PostCard: React.FC<PostCardProps> = ({
       </div>
 
       {/* Post Action Buttons */}
-      <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-slate-800/80 text-xs font-medium">
+      <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-slate-800 text-xs font-medium">
         {/* Like */}
         <button
           onClick={() => onLike(post.id)}
@@ -257,11 +257,11 @@ export const PostCard: React.FC<PostCardProps> = ({
         <button
           onClick={() => onBookmark(post.id)}
           className={`p-1.5 rounded-lg transition-colors ${
-            post.isBookmarkedByMe ? 'text-[#00A3E0] font-bold bg-sky-50 dark:bg-sky-950/30' : 'hover:bg-slate-100 dark:hover:bg-slate-800'
+            post.isBookmarkedByMe ? 'text-orange-600 dark:text-orange-400 font-bold bg-orange-50 dark:bg-orange-950/30' : 'hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
           title="Save Bookmark"
         >
-          <Bookmark size={16} className={post.isBookmarkedByMe ? 'fill-[#00A3E0]' : ''} />
+          <Bookmark size={16} className={post.isBookmarkedByMe ? 'fill-orange-600 dark:fill-orange-400' : ''} />
         </button>
 
         {/* Share */}
@@ -272,7 +272,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         >
           <Share2 size={16} />
           {copied && (
-            <span className="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#0B1E3D] text-white text-[10px] px-2 py-0.5 rounded shadow-md whitespace-nowrap">
+            <span className="absolute -top-7 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-2 py-0.5 rounded shadow-md whitespace-nowrap">
               Link copied!
             </span>
           )}

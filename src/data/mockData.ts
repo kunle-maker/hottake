@@ -6,11 +6,11 @@ export const CURRENT_USER: User = {
   displayName: 'Ayodele',
   avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
   coverPhoto: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200&auto=format&fit=crop&q=80',
-  bio: 'Tactical Analyst & Die-hard Cityzen. Football is chess played at 100mph. ⚽️🎯',
-  favoriteClub: 'Manchester City',
-  favoriteClubCrest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop&q=80',
+  bio: 'Tactical Analyst & Football Enthusiast. Football is chess played at 100mph. ⚽️🎯',
+  favoriteClub: 'Arsenal FC',
+  favoriteClubCrest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=100&auto=format&fit=crop&q=80',
   favoriteLeague: 'Premier League',
-  favoritePlayer: 'Rodri',
+  favoritePlayer: 'Bukayo Saka',
   followersCount: 1420,
   followingCount: 380,
   totalPosts: 89,
@@ -60,11 +60,11 @@ export const INITIAL_POSTS: Post[] = [
       level: 18,
       favoriteClubCrest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=100&auto=format&fit=crop&q=80'
     },
-    content: 'Unpopular opinion: Rodri winning the Golden Ball and World Cup triumph solidifies him as the most complete midfielder in football history. Better than Xavi or Busquets at their peaks because of his match-winning goals in key finals.',
+    content: 'Unpopular opinion: Saka winning the Golden Ball and leading Arsenal in Champions League solidifies him as the most complete winger in world football right now. His work-rate in defensive transition is unmatched.',
     images: ['https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&auto=format&fit=crop&q=80'],
-    hashtags: ['Rodri', 'GoldenBall', 'PremierLeague', 'MidfieldGOAT'],
-    taggedClub: 'Manchester City',
-    taggedPlayer: 'Rodri',
+    hashtags: ['Saka', 'GoldenBall', 'PremierLeague', 'Gunners'],
+    taggedClub: 'Arsenal',
+    taggedPlayer: 'Bukayo Saka',
     createdAt: '1h ago',
     hotMeter: 'NUCLEAR',
     communityVerdict: 'LEGENDARY',
@@ -131,16 +131,16 @@ export const INITIAL_POSTS: Post[] = [
     userId: 'usr_005',
     author: {
       id: 'usr_005',
-      username: 'KeeganEraFan',
+      username: 'ClassicTactics',
       displayName: 'David Miller',
       avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80',
       isVerified: true,
       level: 21
     },
-    content: 'Watch: The Keegan Years! Kevin Keegan brought unmatched flair and entertainment back to City. Modern football needs more managers who play with that pure attacking joy.',
+    content: 'Modern football needs more managers who play with pure attacking joy and fluid positional rotation rather than rigid mechanical patterns.',
     images: ['https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&auto=format&fit=crop&q=80'],
-    hashtags: ['CityHistory', 'KeeganYears', 'AttackingFootball'],
-    taggedClub: 'Manchester City',
+    hashtags: ['Tactics', 'AttackingFootball', 'UCL'],
+    taggedClub: 'Real Madrid',
     createdAt: '15h ago',
     hotMeter: 'MILD',
     communityVerdict: 'COLD_TAKE',
@@ -158,8 +158,8 @@ export const INITIAL_FIXTURES: Fixture[] = [
     league: 'Club Friendly',
     leagueLogo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=60&auto=format&fit=crop&q=80',
     homeTeam: {
-      name: 'Man City',
-      crest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop&q=80',
+      name: 'Arsenal',
+      crest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=100&auto=format&fit=crop&q=80',
       score: 4
     },
     awayTeam: {
@@ -172,14 +172,14 @@ export const INITIAL_FIXTURES: Fixture[] = [
     date: 'Sat 1 Aug 2026',
     stadium: 'Kai Tak Stadium, Hong Kong',
     events: [
-      { id: 'ev_1', minute: 14, type: 'GOAL', player: 'E. Haaland', team: 'HOME', details: 'Assist: K. De Bruyne' },
+      { id: 'ev_1', minute: 14, type: 'GOAL', player: 'B. Saka', team: 'HOME', details: 'Assist: M. Odegaard' },
       { id: 'ev_2', minute: 32, type: 'GOAL', player: 'L. Martinez', team: 'AWAY', details: 'Right foot shot' },
-      { id: 'ev_3', minute: 55, type: 'GOAL', player: 'P. Foden', team: 'HOME', details: 'Curling left-foot top corner' },
+      { id: 'ev_3', minute: 55, type: 'GOAL', player: 'G. Martinelli', team: 'HOME', details: 'Curling top corner' },
       { id: 'ev_4', minute: 68, type: 'YELLOW_CARD', player: 'B. Barella', team: 'AWAY', details: 'Tactical foul' },
-      { id: 'ev_5', minute: 81, type: 'GOAL', player: 'R. Cherki', team: 'HOME', details: 'Debut goal! Sensational strike' }
+      { id: 'ev_5', minute: 81, type: 'GOAL', player: 'M. Merino', team: 'HOME', details: 'Debut goal! Sensational strike' }
     ],
     lineups: {
-      home: ['Ederson', 'Walker', 'Dias', 'Gvardiol', 'Ake', 'Rodri', 'Bernardo', 'De Bruyne', 'Foden', 'Doku', 'Haaland'],
+      home: ['Raya', 'White', 'Saliba', 'Gabriel', 'Timber', 'Rice', 'Merino', 'Odegaard', 'Saka', 'Martinelli', 'Havertz'],
       away: ['Sommer', 'Pavard', 'Acerbi', 'Bastoni', 'Darmian', 'Barella', 'Calhanoglu', 'Mkhitaryan', 'Dimarco', 'Thuram', 'Martinez']
     }
   },
@@ -193,8 +193,8 @@ export const INITIAL_FIXTURES: Fixture[] = [
       score: 0
     },
     awayTeam: {
-      name: 'Man City',
-      crest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop&q=80',
+      name: 'Arsenal',
+      crest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=100&auto=format&fit=crop&q=80',
       score: 0
     },
     status: 'UPCOMING',
@@ -207,8 +207,8 @@ export const INITIAL_FIXTURES: Fixture[] = [
     league: 'Club Friendly',
     leagueLogo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=60&auto=format&fit=crop&q=80',
     homeTeam: {
-      name: 'Man City',
-      crest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop&q=80',
+      name: 'Real Madrid',
+      crest: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=100&auto=format&fit=crop&q=80',
       score: 0
     },
     awayTeam: {
@@ -230,12 +230,12 @@ export const INITIAL_TRANSFERS: Transfer[] = [
     playerAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
     fromClub: 'Olympique Lyonnais',
     fromClubCrest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=80&auto=format&fit=crop&q=80',
-    toClub: 'Manchester City',
-    toClubCrest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=80&auto=format&fit=crop&q=80',
+    toClub: 'Arsenal FC',
+    toClubCrest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=80&auto=format&fit=crop&q=80',
     fee: '€38M',
     type: 'CONFIRMED',
     tierReliability: 1,
-    summary: 'Here We Go! Rayan Cherki completes medical and signs a 5-year contract at Etihad.',
+    summary: 'Here We Go! Rayan Cherki completes medical and signs a 5-year contract at Emirates Stadium.',
     date: 'July 2026',
     likesCount: 1420
   },
@@ -273,18 +273,6 @@ export const INITIAL_TRANSFERS: Transfer[] = [
 
 export const COMMUNITIES: Community[] = [
   {
-    id: 'com_mcfc',
-    name: 'Manchester City',
-    type: 'CLUB',
-    crest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=120&auto=format&fit=crop&q=80',
-    coverPhoto: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200&auto=format&fit=crop&q=80',
-    description: 'Official fan hub for Manchester City FC. Blue Moon, Pep Guardiola, Etihad Stadium news and debates.',
-    membersCount: 485000,
-    isJoined: true,
-    manager: 'Pep Guardiola',
-    stadium: 'Etihad Stadium'
-  },
-  {
     id: 'com_afc',
     name: 'Arsenal FC',
     type: 'CLUB',
@@ -292,7 +280,7 @@ export const COMMUNITIES: Community[] = [
     coverPhoto: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&auto=format&fit=crop&q=80',
     description: 'The Gunners community. North London derby discussions, Arteta tactics, and match threads.',
     membersCount: 410000,
-    isJoined: false,
+    isJoined: true,
     manager: 'Mikel Arteta',
     stadium: 'Emirates Stadium'
   },
@@ -319,6 +307,18 @@ export const COMMUNITIES: Community[] = [
     isJoined: false,
     manager: 'Hansi Flick',
     stadium: 'Spotify Camp Nou'
+  },
+  {
+    id: 'com_cfc',
+    name: 'Chelsea FC',
+    type: 'CLUB',
+    crest: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=120&auto=format&fit=crop&q=80',
+    coverPhoto: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200&auto=format&fit=crop&q=80',
+    description: 'Pride of London hub. Stamford Bridge match threads, Enzo Maresca tactics, transfer news.',
+    membersCount: 380000,
+    isJoined: false,
+    manager: 'Enzo Maresca',
+    stadium: 'Stamford Bridge'
   }
 ];
 
@@ -328,16 +328,16 @@ export const INITIAL_NOTIFICATIONS: NotificationItem[] = [
     type: 'LIKE',
     actorName: 'TacticsGuru',
     actorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-    message: 'liked your Hot Take on Rodri Golden Ball victory',
+    message: 'liked your Hot Take on Saka Golden Ball potential',
     createdAt: '12m ago',
     isRead: false
   },
   {
     id: 'notif_2',
     type: 'FIXTURE_GOAL',
-    actorName: 'ManCityApp',
-    actorAvatar: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&auto=format&fit=crop&q=80',
-    message: "81' GOAL!! | Wolves 0-4 City. Rayan Cherki scores on his City debut. An afternoon to remember!",
+    actorName: 'FootballHub',
+    actorAvatar: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=150&auto=format&fit=crop&q=80',
+    message: "81' GOAL!! | Arsenal 4-1 Inter. Merino scores on debut. Sensational volley!",
     createdAt: '45m ago',
     isRead: false
   },
@@ -351,3 +351,4 @@ export const INITIAL_NOTIFICATIONS: NotificationItem[] = [
     isRead: true
   }
 ];
+
