@@ -54,8 +54,48 @@ export default function App() {
     localStorage.setItem('hottakes_posts', JSON.stringify(posts));
   }, [posts]);
 
-  // Actions
+  // Fetch real data on mount and poll live match engine
+  useEffect(() => {
+    // 1. Fetch initial posts from API
+    fetch('/api/posts')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.posts) {
+          setPosts(data.posts);
+        }
+      })
+      .catch(err => console.error("Error fetching posts:", err));
+
+    // 2. Fetch initial transfers
+    fetch('/api/transfers')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.transfers) {
+          setTransfers(data.transfers);
+        }
+      })
+      .catch(err => console.error("Error fetching transfers:", err));
+
+    // 3. Live Match Engine polling (updates live scores, clock, and match events every 8 seconds)
+    const pollFixtures = () => {
+      fetch('/api/fixtures')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.fixtures) {
+            setFixtures(data.fixtures);
+          }
+        })
+        .catch(err => console.error("Error polling fixtures:", err));
+    };
+
+    pollFixtures();
+    const intervalId = setInterval(pollFixtures, 8000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Actions connected to Backend API
   const handleLikePost = (postId: string) => {
+    // Optimistic UI update
     setPosts(prev => prev.map(p => {
       if (p.id === postId) {
         const isLiked = p.isLikedByMe;
@@ -67,12 +107,16 @@ export default function App() {
       }
       return p;
     }));
+
+    // Call API
+    fetch(`/api/posts/${postId}/like`, { method: 'POST' })
+      .catch(err => console.error("Like post API error:", err));
   };
 
   const handleVoteAged = (postId: string, vote: AgedLikeVote) => {
     setPosts(prev => prev.map(p => {
       if (p.id === postId) {
-        if (p.myAgedVote === vote) return p; // already voted same
+        if (p.myAgedVote === vote) return p;
         const wasWine = p.myAgedVote === 'FINE_WINE';
         const wasMilk = p.myAgedVote === 'MILK';
 
@@ -94,6 +138,12 @@ export default function App() {
       }
       return p;
     }));
+
+    fetch(`/api/posts/${postId}/vote-aged`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vote })
+    }).catch(err => console.error("Vote aged API error:", err));
   };
 
   const handleBookmarkPost = (postId: string) => {
@@ -137,8 +187,7 @@ export default function App() {
     hotMeter: HotMeterLevel;
     communityVerdict: CommunityVerdict;
   }) => {
-    const newPost: Post = {
-      id: `post_${Date.now()}`,
+    const postPayload = {
       userId: user.id,
       author: {
         id: user.id,
@@ -154,18 +203,36 @@ export default function App() {
       hashtags: data.hashtags,
       taggedClub: data.taggedClub,
       taggedPlayer: data.taggedPlayer,
-      createdAt: 'Just now',
       hotMeter: data.hotMeter,
-      communityVerdict: data.communityVerdict,
-      agedLikeWineVotes: 1,
-      agedLikeMilkVotes: 0,
-      likesCount: 1,
-      isLikedByMe: true,
-      commentsCount: 0,
-      repostsCount: 0
+      communityVerdict: data.communityVerdict
     };
 
-    setPosts([newPost, ...posts]);
+    fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postPayload)
+    })
+      .then(res => res.json())
+      .then(resData => {
+        if (resData.success && resData.post) {
+          setPosts(prev => [resData.post, ...prev]);
+        }
+      })
+      .catch(err => {
+        console.error("Create post API error, adding locally:", err);
+        const fallbackPost: Post = {
+          id: `post_${Date.now()}`,
+          ...postPayload,
+          createdAt: 'Just now',
+          agedLikeWineVotes: 1,
+          agedLikeMilkVotes: 0,
+          likesCount: 1,
+          isLikedByMe: true,
+          commentsCount: 0,
+          repostsCount: 0
+        };
+        setPosts(prev => [fallbackPost, ...prev]);
+      });
 
     // Award XP to user for posting a hot take!
     setUser(prev => ({
@@ -189,6 +256,9 @@ export default function App() {
       }
       return t;
     }));
+
+    fetch(`/api/transfers/${id}/like`, { method: 'POST' })
+      .catch(err => console.error("Like transfer API error:", err));
   };
 
   const handleDeletePost = (postId: string) => {
