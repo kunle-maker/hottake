@@ -1,5 +1,38 @@
 import { User, Post, Fixture, Transfer, Community, NotificationItem } from '../types';
 
+export const ADMIN_USER: User = {
+  id: 'usr_admin',
+  username: 'davidayodele847',
+  displayName: 'David Ayodele',
+  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+  coverPhoto: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200&auto=format&fit=crop&q=80',
+  bio: 'Super Admin & Platform Operations Lead for HotTakes™. ⚽️ Keeping debates spicy and civil.',
+  favoriteClub: 'Arsenal FC',
+  favoriteClubCrest: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=100&auto=format&fit=crop&q=80',
+  favoriteLeague: 'Premier League',
+  favoritePlayer: 'Bukayo Saka',
+  followersCount: 15400,
+  followingCount: 120,
+  totalPosts: 340,
+  isVerified: true,
+  xp: 9950,
+  level: 50,
+  levelTitle: 'Super Admin',
+  reputationScore: 100,
+  badges: [
+    {
+      id: 'bdg_admin',
+      name: 'Super Admin',
+      description: 'Platform Operations & Moderation Lead',
+      iconName: 'Shield',
+      unlockedAt: '2026-01-01'
+    }
+  ],
+  predictionAccuracy: 92.5,
+  joinedDate: 'January 2026',
+  role: 'ADMIN'
+};
+
 export const CURRENT_USER: User = {
   id: 'usr_001',
   username: 'Ayodele',
@@ -44,7 +77,7 @@ export const CURRENT_USER: User = {
   ],
   predictionAccuracy: 78.5,
   joinedDate: 'August 2025',
-  role: 'ADMIN'
+  role: 'USER'
 };
 
 export const INITIAL_POSTS: Post[] = [

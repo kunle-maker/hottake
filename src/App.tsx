@@ -14,6 +14,7 @@ import { AuthModal } from './components/AuthModal';
 import { CommentsModal } from './components/CommentsModal';
 import { NotificationsModal } from './components/NotificationsModal';
 import { AdminPanelModal } from './components/AdminPanelModal';
+import { LandingPage } from './components/LandingPage';
 
 export default function App() {
   const [user, setUser] = useState<User>(() => {
@@ -21,7 +22,10 @@ export default function App() {
     return saved ? JSON.parse(saved) : CURRENT_USER;
   });
 
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    const saved = localStorage.getItem('hottakes_is_logged_in');
+    return saved === 'true';
+  });
 
   const [posts, setPosts] = useState<Post[]>(() => {
     const saved = localStorage.getItem('hottakes_posts');
@@ -290,6 +294,22 @@ export default function App() {
   const userPosts = posts.filter(p => p.userId === user.id || p.author.username === user.username);
   const bookmarkedPosts = posts.filter(p => p.isBookmarkedByMe);
 
+  // Gatekeeping: If user is not logged in, present the Landing Page & Auth screen
+  if (!isLoggedIn) {
+    return (
+      <LandingPage
+        onLoginSuccess={(loggedUser) => {
+          setUser(loggedUser);
+          setIsLoggedIn(true);
+          localStorage.setItem('hottakes_is_logged_in', 'true');
+          localStorage.setItem('hottakes_user', JSON.stringify(loggedUser));
+        }}
+        isDarkMode={isDarkMode}
+        onToggleTheme={() => setIsDarkMode((prev) => !prev)}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-[#121214] text-zinc-900 dark:text-zinc-100 font-sans antialiased selection:bg-zinc-800 selection:text-white dark:selection:bg-zinc-200 dark:selection:text-black">
       {/* Top Header */}
@@ -374,7 +394,7 @@ export default function App() {
             onOpenComments={(p) => setActiveCommentsPost(p)}
             onLogout={() => {
               setIsLoggedIn(false);
-              setShowAuthModal(true);
+              localStorage.setItem('hottakes_is_logged_in', 'false');
             }}
             onOpenAdmin={() => setShowAdminModal(true)}
             isDarkMode={isDarkMode}
@@ -406,13 +426,11 @@ export default function App() {
       {showAuthModal && (
         <AuthModal
           onClose={() => setShowAuthModal(false)}
-          onLoginSuccess={(name) => {
+          onLoginSuccess={(loggedUser) => {
+            setUser(loggedUser);
             setIsLoggedIn(true);
-            setUser(prev => ({
-              ...prev,
-              displayName: name,
-              username: name
-            }));
+            localStorage.setItem('hottakes_is_logged_in', 'true');
+            localStorage.setItem('hottakes_user', JSON.stringify(loggedUser));
           }}
         />
       )}

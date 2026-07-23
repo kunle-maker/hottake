@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { X, Eye, EyeOff, Lock, Mail, HelpCircle } from 'lucide-react';
+import { X, Eye, EyeOff, Lock, Mail, HelpCircle, Shield } from 'lucide-react';
+import { User } from '../types';
+import { ADMIN_USER, CURRENT_USER } from '../data/mockData';
 
 interface AuthModalProps {
   onClose: () => void;
-  onLoginSuccess: (username: string) => void;
+  onLoginSuccess: (user: User) => void;
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
@@ -22,10 +24,26 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
 
   const handleAuthSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!emailOrSupporter) return;
+    const cleanInput = emailOrSupporter.trim();
+    if (!cleanInput) return;
 
-    const usernameExtracted = emailOrSupporter.split('@')[0] || 'Ayodele';
-    onLoginSuccess(usernameExtracted);
+    if (
+      cleanInput.toLowerCase() === 'davidayodele847@gmail.com' &&
+      password === '1234201217'
+    ) {
+      onLoginSuccess(ADMIN_USER);
+      onClose();
+      return;
+    }
+
+    const usernameExtracted = cleanInput.split('@')[0] || 'Ayodele';
+    const loggedUser: User = {
+      ...CURRENT_USER,
+      username: usernameExtracted,
+      displayName: usernameExtracted,
+      role: 'USER'
+    };
+    onLoginSuccess(loggedUser);
     onClose();
   };
 
@@ -199,6 +217,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess })
               </a>
             </div>
           )}
+
+          {/* Quick Admin Auto Fill Shortcut */}
+          <div className="p-2.5 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-between">
+            <div className="text-[11px] font-bold text-orange-400 flex items-center gap-1.5">
+              <Shield size={14} />
+              <span>Admin Login Shortcut:</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setEmailOrSupporter('davidayodele847@gmail.com');
+                setPassword('1234201217');
+              }}
+              className="px-2.5 py-1 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-[10px] transition-colors"
+            >
+              Fill Admin
+            </button>
+          </div>
 
           {/* Submit Button */}
           <button

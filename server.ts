@@ -538,16 +538,38 @@ app.get("/api/deployment-config", (req, res) => {
 
 // 7. Mock Auth Endpoints
 app.post("/api/auth/login", (req, res) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
+  const cleanEmail = (email || "").trim().toLowerCase();
+
+  if (cleanEmail === "davidayodele847@gmail.com" && password === "1234201217") {
+    res.json({
+      success: true,
+      token: "jwt-token-admin-davidayodele",
+      user: {
+        id: "usr_admin",
+        username: "davidayodele847",
+        displayName: "David Ayodele",
+        email: "davidayodele847@gmail.com",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+        role: "ADMIN",
+        isVerified: true,
+        level: 50,
+        levelTitle: "Super Admin"
+      }
+    });
+    return;
+  }
+
   res.json({
     success: true,
     token: "jwt-token-hottakes-2026",
     user: {
-      id: "usr_001",
+      id: `usr_${Date.now()}`,
       username: email ? email.split("@")[0] : "Ayodele",
       displayName: email ? email.split("@")[0] : "Ayodele",
+      email: email || "user@hottakes.app",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-      role: "ADMIN"
+      role: "USER"
     }
   });
 });
