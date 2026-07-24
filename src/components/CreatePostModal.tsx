@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { User, HotMeterLevel, CommunityVerdict, HotTakeAnalysisResult } from '../types';
 import { FlameIcon } from './CustomIcons';
-import { X, Sparkles, Image, Hash, Tag, Save, Send } from 'lucide-react';
+import { X, Sparkles, Image as ImageIcon, Upload, Save, Send, Trash2, CheckCircle2 } from 'lucide-react';
 
 interface CreatePostModalProps {
   user: User;
@@ -25,7 +25,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   onSaveDraft
 }) => {
   const [content, setContent] = useState('');
-  const [imageInput, setImageInput] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [hashtagInput, setHashtagInput] = useState('');
   const [hashtags, setHashtags] = useState<string[]>(['HotTake', 'Football']);
@@ -34,10 +33,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const [hotMeter, setHotMeter] = useState<HotMeterLevel>('SPICY');
   const [communityVerdict, setCommunityVerdict] = useState<CommunityVerdict>('WARM_TAKE');
   
+  // Device File Upload ref
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
   // AI Analysis State
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [aiResult, setAiResult] = useState<HotTakeAnalysisResult | null>(null);
-  const [showImageField, setShowImageField] = useState(false);
 
   const handleAddHashtag = () => {
     if (hashtagInput.trim()) {
@@ -53,11 +55,42 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     setHashtags(hashtags.filter(t => t !== tagToRemove));
   };
 
-  const handleAddImage = () => {
-    if (imageInput.trim()) {
-      setImages([...images, imageInput.trim()]);
-      setImageInput('');
-      setShowImageField(false);
+  // Device File Upload Handler
+  const processFiles = (files: FileList | File[]) => {
+    Array.from(files).forEach((file) => {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        if (result) {
+          setImages((prev) => [...prev, result]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileUploadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      processFiles(e.target.files);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      processFiles(e.dataTransfer.files);
     }
   };
 
@@ -68,7 +101,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     setAiResult(null);
 
     try {
-      const res = await fetch('/api/gemini/analyze-take', {
+      const res = await fetch('/api/analyze-take', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content })
@@ -140,7 +173,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             />
             <div>
               <div className="font-bold text-sm leading-tight text-slate-900 dark:text-white">{user.displayName}</div>
-              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">@{user.username} • Lvl {user.level} Author</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">@{user.username} • Level {user.level} Author</span>
             </div>
           </div>
 
@@ -152,13 +185,67 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               placeholder="What is your spiciest football opinion today? (e.g., 'Tactically, Arsenal double pivot locks down Madrid...')"
               rows={4}
               maxLength={400}
-              className="w-full bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700/80 text-sm focus:outline-hidden focus:border-orange-500 resize-none text-slate-900 dark:text-white placeholder-slate-400"
+              className="w-full bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700/80 text-sm focus:outline-hidden focus:border-orange-500 resize-none text-slate-900 dark:text-white placeholder-slate-400 font-normal"
               required
             />
             <div className="flex justify-between items-center text-[11px] text-slate-400 mt-1">
               <span>{400 - content.length} characters left</span>
-              <span>No emojis needed!</span>
+              <span>Clean, text-driven opinion</span>
             </div>
+          </div>
+
+          {/* Device Image Upload Zone */}
+          <div>
+            <label className="block text-xs font-extrabold text-slate-700 dark:text-slate-300 mb-1.5">
+              Attach Images From Device
+            </label>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileUploadChange}
+              accept="image/*"
+              multiple
+              className="hidden"
+            />
+
+            <div
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+              className={`p-4 rounded-xl border-2 border-dashed transition-all cursor-pointer text-center ${
+                isDragging
+                  ? 'border-orange-500 bg-orange-500/10'
+                  : 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 hover:bg-slate-100 dark:hover:bg-slate-900'
+              }`}
+            >
+              <div className="flex flex-col items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400">
+                <Upload size={20} className="text-orange-500" />
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                  Click or Drag & Drop images from your device
+                </span>
+                <span className="text-[10px] text-slate-400">Supports PNG, JPG, WEBP, GIF</span>
+              </div>
+            </div>
+
+            {/* Uploaded Images Thumbnails */}
+            {images.length > 0 && (
+              <div className="flex flex-wrap gap-2.5 mt-3">
+                {images.map((img, i) => (
+                  <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 group shadow-xs">
+                    <img src={img} alt="Uploaded attachment" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => setImages(images.filter((_, index) => index !== i))}
+                      className="absolute top-1 right-1 bg-slate-950/80 hover:bg-red-600 text-white p-1 rounded-full transition-colors"
+                      title="Remove image"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* AI Hot Take Analyzer Button */}
@@ -166,7 +253,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-white">
                 <Sparkles size={16} className="text-orange-500" />
-                <span>AI Hot Take Meter Analyzer</span>
+                <span>AI Spiciness Analyzer</span>
               </div>
               <button
                 type="button"
@@ -174,14 +261,14 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 disabled={!content.trim() || isAnalyzing}
                 className="px-3 py-1 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs transition-all disabled:opacity-50 flex items-center gap-1 shadow-xs"
               >
-                {isAnalyzing ? 'Analyzing...' : 'Test Spiciness'}
+                {isAnalyzing ? 'Analyzing...' : 'Analyze Spiciness'}
               </button>
             </div>
 
             {aiResult && (
               <div className="mt-2.5 pt-2 border-t border-slate-200 dark:border-slate-800 text-xs space-y-1.5">
                 <div className="flex items-center justify-between font-bold">
-                  <span>Spiciness Score: <span className="text-red-500">{aiResult.spicinessScore}/100</span></span>
+                  <span>Spiciness Score: <span className="text-orange-500">{aiResult.spicinessScore}/100</span></span>
                   <span className="text-slate-600 dark:text-slate-300">Hot Meter: <strong className="text-slate-900 dark:text-white">{aiResult.hotMeter}</strong></span>
                 </div>
                 <p className="text-slate-600 dark:text-slate-300 italic">{aiResult.aiSummary}</p>
@@ -193,7 +280,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">
-                Hot Meter™
+                Hot Meter Level
               </label>
               <select
                 value={hotMeter}
@@ -208,7 +295,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">
-                Community Verdict
+                Verdict Category
               </label>
               <select
                 value={communityVerdict}
@@ -217,7 +304,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               >
                 <option value="COLD_TAKE">Cold Take</option>
                 <option value="WARM_TAKE">Warm Take</option>
-                <option value="HOT_TAKE">Hot Take!</option>
+                <option value="HOT_TAKE">Hot Take</option>
                 <option value="VOLCANIC">Volcanic Take</option>
                 <option value="LEGENDARY">Legendary Take</option>
               </select>
@@ -232,7 +319,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 type="text"
                 value={taggedClub}
                 onChange={(e) => setTaggedClub(e.target.value)}
-                placeholder="e.g. Arsenal"
+                placeholder="e.g. Arsenal FC"
                 className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-900 dark:text-white"
               />
             </div>
@@ -283,55 +370,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             </div>
           </div>
 
-          {/* Images preview & input */}
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="text-xs font-semibold text-slate-500">Image URL (Optional)</label>
-              <button
-                type="button"
-                onClick={() => setShowImageField(!showImageField)}
-                className="text-xs text-orange-600 dark:text-orange-400 font-bold hover:underline flex items-center gap-1"
-              >
-                <Image size={14} />
-                <span>{showImageField ? 'Cancel' : 'Attach Image'}</span>
-              </button>
-            </div>
-            {showImageField && (
-              <div className="flex gap-2 mt-1">
-                <input
-                  type="url"
-                  value={imageInput}
-                  onChange={(e) => setImageInput(e.target.value)}
-                  placeholder="https://images.unsplash.com/..."
-                  className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-900 dark:text-white"
-                />
-                <button
-                  type="button"
-                  onClick={handleAddImage}
-                  className="px-3 py-1 bg-orange-600 text-white text-xs font-bold rounded-lg"
-                >
-                  Attach
-                </button>
-              </div>
-            )}
-            {images.length > 0 && (
-              <div className="flex gap-2 mt-2">
-                {images.map((img, i) => (
-                  <div key={i} className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-300">
-                    <img src={img} alt="attached" className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => setImages(images.filter((_, index) => index !== i))}
-                      className="absolute top-0 right-0 bg-red-600 text-white w-4 h-4 text-[10px] flex items-center justify-center rounded-bl"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
           {/* Action Buttons */}
           <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
             <button
@@ -358,3 +396,4 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     </div>
   );
 };
+

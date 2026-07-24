@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { User, Post, Fixture, Transfer, Community, NotificationItem, AgedLikeVote, HotMeterLevel, CommunityVerdict } from './types';
-import { CURRENT_USER, INITIAL_POSTS, INITIAL_FIXTURES, INITIAL_TRANSFERS, COMMUNITIES, INITIAL_NOTIFICATIONS } from './data/mockData';
+import { User, Post, Community, NotificationItem, AgedLikeVote, HotMeterLevel, CommunityVerdict } from './types';
+import { CURRENT_USER, INITIAL_POSTS, COMMUNITIES, INITIAL_NOTIFICATIONS } from './data/mockData';
 import { Header } from './components/Header';
 import { BottomNav, NavTab } from './components/BottomNav';
 import { HomeFeed } from './components/HomeFeed';
 import { SearchExploreView } from './components/SearchExploreView';
-import { FixturesView } from './components/FixturesView';
-import { TransfersView } from './components/TransfersView';
 import { CommunitiesView } from './components/CommunitiesView';
 import { ProfileView } from './components/ProfileView';
 import { CreatePostModal } from './components/CreatePostModal';
@@ -14,6 +12,7 @@ import { AuthModal } from './components/AuthModal';
 import { CommentsModal } from './components/CommentsModal';
 import { NotificationsModal } from './components/NotificationsModal';
 import { AdminPanelModal } from './components/AdminPanelModal';
+import { CreditsModal } from './components/CreditsModal';
 import { LandingPage } from './components/LandingPage';
 
 export default function App() {
@@ -32,14 +31,12 @@ export default function App() {
     return saved ? JSON.parse(saved) : INITIAL_POSTS;
   });
 
-  const [fixtures, setFixtures] = useState<Fixture[]>(INITIAL_FIXTURES);
-  const [transfers, setTransfers] = useState<Transfer[]>(INITIAL_TRANSFERS);
   const [communities] = useState<Community[]>(COMMUNITIES);
   const [notifications, setNotifications] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
   const [drafts, setDrafts] = useState<string[]>(['Arsenal mid structure is severely underrated when Merino drops deep...']);
 
   // Navigation State
-  const [activeTab, setActiveTab] = useState<NavTab | 'profile'>('home');
+  const [activeTab, setActiveTab] = useState<NavTab>('home');
   const [selectedCommunityId, setSelectedCommunityId] = useState<string | null>(null);
 
   // Modals
@@ -47,9 +44,10 @@ export default function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showNotificationsModal, setShowNotificationsModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [showCreditsModal, setShowCreditsModal] = useState(false);
   const [activeCommentsPost, setActiveCommentsPost] = useState<Post | null>(null);
 
-  // Theme State (Dark / Light Mode for Eye Sensitivity)
+  // Theme State (Dark / Light Mode)
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     const saved = localStorage.getItem('hottakes_theme');
     return saved ? saved === 'dark' : true;
@@ -74,9 +72,8 @@ export default function App() {
     localStorage.setItem('hottakes_posts', JSON.stringify(posts));
   }, [posts]);
 
-  // Fetch real data on mount and poll live match engine
+  // Fetch initial posts on mount
   useEffect(() => {
-    // 1. Fetch initial posts from API
     fetch('/api/posts')
       .then(res => res.json())
       .then(data => {
@@ -85,37 +82,10 @@ export default function App() {
         }
       })
       .catch(err => console.error("Error fetching posts:", err));
-
-    // 2. Fetch initial transfers
-    fetch('/api/transfers')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && data.transfers) {
-          setTransfers(data.transfers);
-        }
-      })
-      .catch(err => console.error("Error fetching transfers:", err));
-
-    // 3. Live Match Engine polling (updates live scores, clock, and match events every 8 seconds)
-    const pollFixtures = () => {
-      fetch('/api/fixtures')
-        .then(res => res.json())
-        .then(data => {
-          if (data.success && data.fixtures) {
-            setFixtures(data.fixtures);
-          }
-        })
-        .catch(err => console.error("Error polling fixtures:", err));
-    };
-
-    pollFixtures();
-    const intervalId = setInterval(pollFixtures, 8000);
-    return () => clearInterval(intervalId);
   }, []);
 
   // Actions connected to Backend API
   const handleLikePost = (postId: string) => {
-    // Optimistic UI update
     setPosts(prev => prev.map(p => {
       if (p.id === postId) {
         const isLiked = p.isLikedByMe;
@@ -128,7 +98,6 @@ export default function App() {
       return p;
     }));
 
-    // Call API
     fetch(`/api/posts/${postId}/like`, { method: 'POST' })
       .catch(err => console.error("Like post API error:", err));
   };
@@ -254,31 +223,11 @@ export default function App() {
         setPosts(prev => [fallbackPost, ...prev]);
       });
 
-    // Award XP to user for posting a hot take!
     setUser(prev => ({
       ...prev,
       xp: prev.xp + 50,
       totalPosts: prev.totalPosts + 1
     }));
-  };
-
-  const handleAwardXp = (amount: number) => {
-    setUser(prev => ({
-      ...prev,
-      xp: prev.xp + amount
-    }));
-  };
-
-  const handleLikeTransfer = (id: string) => {
-    setTransfers(prev => prev.map(t => {
-      if (t.id === id) {
-        return { ...t, likesCount: t.likesCount + 1 };
-      }
-      return t;
-    }));
-
-    fetch(`/api/transfers/${id}/like`, { method: 'POST' })
-      .catch(err => console.error("Like transfer API error:", err));
   };
 
   const handleDeletePost = (postId: string) => {
@@ -311,7 +260,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-100 dark:bg-[#121214] text-zinc-900 dark:text-zinc-100 font-sans antialiased selection:bg-zinc-800 selection:text-white dark:selection:bg-zinc-200 dark:selection:text-black">
+    <div className="min-h-screen bg-slate-100 dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-orange-500 selection:text-white">
       {/* Top Header */}
       <Header
         user={user}
@@ -357,21 +306,6 @@ export default function App() {
           />
         )}
 
-        {activeTab === 'fixtures' && (
-          <FixturesView
-            fixtures={fixtures}
-            userXp={user.xp}
-            onAwardXp={handleAwardXp}
-          />
-        )}
-
-        {activeTab === 'transfers' && (
-          <TransfersView
-            transfers={transfers}
-            onLikeTransfer={handleLikeTransfer}
-          />
-        )}
-
         {activeTab === 'communities' && (
           <CommunitiesView
             communities={communities}
@@ -405,12 +339,13 @@ export default function App() {
 
       {/* Bottom Navigation */}
       <BottomNav
-        activeTab={activeTab === 'profile' ? 'home' : activeTab}
+        activeTab={activeTab}
         onSelectTab={(tab) => {
           setSelectedCommunityId(null);
           setActiveTab(tab);
         }}
         onOpenCreatePost={() => setShowCreatePostModal(true)}
+        onOpenCredits={() => setShowCreditsModal(true)}
       />
 
       {/* Modals */}
@@ -458,6 +393,13 @@ export default function App() {
           onDeletePost={handleDeletePost}
         />
       )}
+
+      {showCreditsModal && (
+        <CreditsModal
+          onClose={() => setShowCreditsModal(false)}
+        />
+      )}
     </div>
   );
 }
+
